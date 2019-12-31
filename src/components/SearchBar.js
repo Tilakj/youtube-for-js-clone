@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
-
+import ClearIcon from '@material-ui/icons/Clear';
 export class SearchBar extends Component {
     constructor(props) {
         super(props)
@@ -17,9 +17,11 @@ export class SearchBar extends Component {
         handleFormSubmit(searchTerm)
         event.preventDefault()
     }
-
+    clearText = () => {
+        this.setState({ searchTerm: '' })
+    }
     render() {
-        const {classes} = this.props
+        const { classes } = this.props
         return (
             <div className={classes.search}>
                 <div className={classes.searchIcon}>
@@ -32,10 +34,11 @@ export class SearchBar extends Component {
                             root: classes.inputRoot,
                             input: classes.inputInput,
                         }}
+                        value={this.state.searchTerm}
                         inputProps={{ 'aria-label': 'search' }}
                         onChange={this.handleChange}
                     />
-                     
+                    <ClearIcon style={{marginTop: '8px', cursor: 'pointer' }} onClick={this.clearText} />
                 </form>
             </div>
         )

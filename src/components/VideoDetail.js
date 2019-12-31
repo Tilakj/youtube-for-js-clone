@@ -1,15 +1,15 @@
 import React from 'react'
-import { Paper, Typography } from '@material-ui/core'
+import { Paper, Typography,LinearProgress} from '@material-ui/core'
 
 const VideoDetail = (props) => {
     console.log(props.selectedVideo)
-
-    if (!props.selectedVideo) return <div>Loading...</div>
-    const videoSrc = (props.selectedVideo.id.kind === "youtube#video") ? `https://www.youtube.com/embed/${props.selectedVideo.id.videoId}` : `https://www.youtube.com/embed?listType=playlist&list=${props.selectedVideo.id.playlistId}`
-
+    if (!props.selectedVideo) return  <LinearProgress variant="query" color="secondary" />
+    // if (!.isLoading) return <div>Loading...</div>
+    const videoSrc = (props.selectedVideo.id.kind === "youtube#video") ? `https://www.youtube.com/embed/${props.selectedVideo.id.videoId}?autoplay=${props.play ? 1 : 0}` : `https://www.youtube.com/embed?listType=playlist&list=${props.selectedVideo.id.playlistId}&autoplay=${props.play ? 1 : 0}`
+    console.log(videoSrc)
     return (
         <>
-            <Paper elevation={6} style={{ height: '500px' } }>
+            <Paper elevation={6} style={{ height: '500px' }}>
                 <iframe allowFullScreen="allowfullscreen" height="100%" width="100%" frameBorder="0" title="Video Player" src={videoSrc} />
             </Paper>
             <Paper elevation={6} style={{ padding: '15px' }}>

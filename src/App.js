@@ -9,7 +9,9 @@ export class App extends Component {
 
         this.state = {
             videos: [],
-            selectedVideo: ''
+            selectedVideo: '',
+            play: false,
+            isLoading: true,
         }
     }
 
@@ -17,7 +19,9 @@ export class App extends Component {
         this.handleFormSubmit('')
     }
     onVideoSelected = (video) => {
-        this.setState({ selectedVideo: video })
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+        this.setState({ selectedVideo: video, play: true })
 
     }
     handleFormSubmit = searchTerm => {
@@ -27,11 +31,12 @@ export class App extends Component {
                     part: 'snippet',
                     maxResults: 5,
                     safeSearch: 'strict',
-                    key: 'AIzaSyC4T3Wxp4N_IZcCICttk9K_--iGkc28ZNA',
+                    // key: 'AIzaSyC4T3Wxp4N_IZcCICttk9K_--iGkc28ZNA',
+                    key:'AIzaSyDSwklq_S-iB0QEnMlDn2QVZmVYrCSDvGE',
                     q: searchTerm + ' javascript'
                 }
             }).then(respone => {
-                this.setState({ videos: respone.data.items, selectedVideo: respone.data.items[0] })
+                this.setState({ videos: respone.data.items, selectedVideo: respone.data.items[0], isLoading: false })
                 console.log(respone.data.items)
             })
             .catch(err => {
@@ -40,13 +45,13 @@ export class App extends Component {
 
     }
     render() {
-        const { selectedVideo, videos } = this.state
+        const { selectedVideo, videos, play } = this.state
         return (
             <>
                 <HeaderBar handleFormSubmit={this.handleFormSubmit} />
                 <Grid style={{ marginTop: '65px' }} container spacing={2}>
                     <Grid item xs={12} md={8} >
-                        <VideoDetail selectedVideo={selectedVideo} />
+                        <VideoDetail selectedVideo={selectedVideo} play={play} />
                     </Grid>
                     <Grid item xs={12} md={4}>
                         <VideoList videos={videos} onVideoSelected={this.onVideoSelected} />
